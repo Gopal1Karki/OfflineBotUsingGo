@@ -60,8 +60,9 @@ func goHelp() {
 func reply(sentence string) {
 	inf := sentence
 	responses := map[string]string{
-		"hi":                "Hi! How can i assist you?",
+		"hi":                "Hi! how are you ?",
 		"hello":             "Hello !",
+		"i am fine and you": "I'm good, thank you! How may i help you?",
 		"what is your name": "My name is GoBOT!",
 		"how are you":       "I'm good, thank you!",
 		"good morning":      "Goodmorning ! Have a good Day!",
@@ -184,7 +185,7 @@ func calculator() {
 
 }
 func mediaPlayer() {
-	cmd = exec.Command("cmd", "/C", "start", "wmplayer", "wmplayer.exe", "microphone:")
+	cmd = exec.Command("cmd", "/C", "start", "wmplayer.exe")
 	cmd.Start()
 }
 func settings() {
