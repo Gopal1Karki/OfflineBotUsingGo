@@ -10,6 +10,8 @@ import (
 	"time"
 )
 
+var cmd *exec.Cmd
+
 func clearScreen() {
 	if runtime.GOOS == "windows" {
 		cmd := exec.Command("cmd", "/c", "cls")
@@ -65,9 +67,12 @@ func reply(sentence string) {
 		"good morning":      "Goodmorning ! Have a good Day!",
 		"goodmorning":       "Goodmorning ! Have a good Day!",
 		"bye":               "Bye Bye! See you soon ",
+		"bye bye":           "Bye Bye! See you soon ",
 		"good night":        "Goodnight ! Sweet Dreams.",
 		"goodnight":         "Goodnight ! Sweet Dreams.",
 		"exit":              "type /exit to exit GoBOT",
+		"clear":             "type /clear to clear the results",
+		"shutdown":          "type /shutdown to shudown computer",
 	}
 	response, ok := responses[inf]
 	if ok {
@@ -108,7 +113,7 @@ func reply(sentence string) {
 		} else if inf == "open browser" {
 			fmt.Println("wait.....")
 			time.Sleep(1 * time.Second)
-			openBrowser("brave")
+			openBrowser()
 		} else if inf == "open calculator" {
 			fmt.Println("Opening the Calculator")
 			time.Sleep(1 * time.Second)
@@ -121,12 +126,24 @@ func reply(sentence string) {
 			fmt.Println("Wait....")
 			time.Sleep(1 * time.Second)
 			openCamera()
+		} else if inf == "open explorer" {
+			fmt.Println("Wait....")
+			time.Sleep(1 * time.Second)
+			openExplorer()
+		} else if inf == "open mediaplayer" {
+			fmt.Println("Wait....")
+			time.Sleep(1 * time.Second)
+			mediaPlayer()
+		} else if inf == "/shutdown" {
+			fmt.Println("Wait....")
+			time.Sleep(1 * time.Second)
+			shutDown()
 		} else {
 			fmt.Println("GoBOT> I'm sorry, I don't understand.")
 			fmt.Printf("\n")
 			fmt.Println("You can use following command such as ")
 			info := []string{
-				"hello", "open browser", "current time", "current date", "etc",
+				"hello", "open browser", "current time", "current date", "open mediaplayer", "etc",
 			}
 			for _, disP := range info {
 				fmt.Printf("-> ")
@@ -138,20 +155,21 @@ func reply(sentence string) {
 	}
 
 }
-func openBrowser(url string) bool {
-	var args []string
-	switch runtime.GOOS {
-	case "darwin":
-		args = []string{"open"}
-	case "windows":
-		args = []string{"cmd", "/c", "start"}
-	default:
-		args = []string{"xdg-open"}
+func shutDown() {
+	cmd := exec.Command("shutdown", "-h", "now")
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
 	}
-	cmd := exec.Command(args[0], append(args[1:], url)...)
-	fmt.Println("Brave opened Sucessfully!!!")
-	fmt.Printf("\n")
-	return cmd.Start() == nil
+}
+func openExplorer() {
+	cmd = exec.Command("cmd", "/c", "start", "explorer.exe")
+	cmd.Run()
+
+}
+func openBrowser() {
+	cmd = exec.Command("cmd", "/c", "start", "brave.exe")
+	cmd.Run()
 }
 
 func calculator() {
@@ -163,19 +181,15 @@ func calculator() {
 	} else {
 		fmt.Println("Calculator opened sucessfully!")
 	}
-	fmt.Printf("\n")
+
 }
 func mediaPlayer() {
-	var cmd *exec.Cmd
 	cmd = exec.Command("cmd", "/C", "start", "wmplayer", "wmplayer.exe", "microphone:")
 	cmd.Start()
-	fmt.Printf("\n")
 }
 func settings() {
-	var cmd *exec.Cmd
 	cmd = exec.Command("cmd", "/C", "start", "ms-settings:")
 	cmd.Start()
-	fmt.Printf("\n")
 }
 func notePad() {
 	cmd := exec.Command("notepad.exe")
@@ -186,13 +200,10 @@ func notePad() {
 	} else {
 		fmt.Println("Notepad is opened Sucessfully!")
 	}
-	fmt.Printf("\n")
 }
 func openCamera() {
-	var cmd *exec.Cmd
 	cmd = exec.Command("cmd", "/c", "start", "microsoft.windows.camera:")
 	cmd.Start()
-	fmt.Printf("\n")
 }
 func main() {
 	clearScreen()
