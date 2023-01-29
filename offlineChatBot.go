@@ -28,6 +28,7 @@ func startInterface() {
 	fmt.Println("Type /help to if you need any help!! ")
 	fmt.Printf("\n")
 	fmt.Println("GoBOT: Hello ! I am GoBOT. How can i assist you?")
+	fmt.Printf("\n")
 
 	mainBot()
 }
@@ -39,19 +40,38 @@ func mainBot() {
 	input = strings.TrimSpace(input)
 	input = strings.ToLower(input)
 	if input == "/help" {
+		fmt.Printf("\n")
 		goHelp()
+	} else if input == "/list" {
+		fmt.Printf("\n")
+		goList()
 	}
+	time.Sleep(1 * time.Second)
 	reply(input)
 
+}
+func goList() {
+	fmt.Println("GoBOT> Here are the list of instruction you can use!")
+	lists := []string{
+		"open browser", "open camera", "open settings", "current date", "current time", "open notepad", "open explorer",
+		"open mediaplayer", "open paint", "open calculator", "hi", "hello", "good morning", "bye", "good night",
+	}
+
+	for _, list := range lists {
+		fmt.Printf("-> ")
+		fmt.Println(list)
+	}
+	fmt.Printf("\n")
+	mainBot()
 }
 func goHelp() {
 	fmt.Println("GoBOT> Here are the command you can use in GoBOT!")
 
 	cmdList := []string{
-		"/cls", "/clear", "/help", "exit", "/shutdown",
+		"to see the set the set of instructuions type /list ", "to clear the history use  /cls or /clear", "to exit GoBOT use /exit", "to shutdown computer use /shutdown",
 	}
 	for _, cmdL := range cmdList {
-		fmt.Printf("->")
+		fmt.Printf("-> ")
 		fmt.Println(cmdL)
 	}
 	fmt.Printf("\n")
@@ -74,9 +94,12 @@ func reply(sentence string) {
 		"exit":              "type /exit to exit GoBOT",
 		"clear":             "type /clear to clear the results",
 		"shutdown":          "type /shutdown to shudown computer",
+		"list":              "type /list to see the instructions",
+		"help":              "type /help if you need any Help",
 	}
 	response, ok := responses[inf]
 	if ok {
+		fmt.Printf("\n")
 		fmt.Println("GoBOT: ", response)
 		fmt.Printf("\n")
 		mainBot()
@@ -94,52 +117,70 @@ func reply(sentence string) {
 			}
 
 		} else if inf == "current date" {
+			fmt.Printf("\n")
 			now := time.Now()
 			fmt.Printf("GoBOT> ")
 			fmt.Println("Current Date is : ", now.Day(), "/", now.Month(), "/", now.Year())
 
 		} else if inf == "/cls" || inf == "/clear" {
+			fmt.Printf("\n")
 			fmt.Printf("==> Clearing the screen !!!")
-			time.Sleep(2 * time.Second)
+			time.Sleep(1 * time.Second)
 			main()
 		} else if inf == "/exit" {
+			fmt.Printf("\n")
 			fmt.Println("Exiting the GoBOT.....!")
 			time.Sleep(1 * time.Second)
 			clearScreen()
 			os.Exit(1)
 		} else if inf == "open setting" || inf == "open settings" {
-			fmt.Println("Opening the settings..")
+			fmt.Printf("\n")
+			fmt.Println("Opening the settings....")
 			time.Sleep(1 * time.Second)
+
 			settings()
 		} else if inf == "open browser" {
-			fmt.Println("wait.....")
+			fmt.Printf("\n")
+			fmt.Println("Opening the browser....")
 			time.Sleep(1 * time.Second)
 			openBrowser()
 		} else if inf == "open calculator" {
-			fmt.Println("Opening the Calculator")
+			fmt.Printf("\n")
+			fmt.Println("Opening the Calculator....")
 			time.Sleep(1 * time.Second)
 			calculator()
 		} else if inf == "open notepad" {
-			fmt.Println("Wait....")
+			fmt.Printf("\n")
+			fmt.Println("Opening the notepad....")
 			time.Sleep(1 * time.Second)
 			notePad()
 		} else if inf == "open camera" || inf == "open webcam" {
-			fmt.Println("Wait....")
+			fmt.Printf("\n")
+			fmt.Println("Opening the camera....")
 			time.Sleep(1 * time.Second)
 			openCamera()
 		} else if inf == "open explorer" {
-			fmt.Println("Wait....")
+			fmt.Printf("\n")
+			fmt.Println("Opening the file explorer....")
 			time.Sleep(1 * time.Second)
 			openExplorer()
 		} else if inf == "open mediaplayer" {
-			fmt.Println("Wait....")
+			fmt.Printf("\n")
+			fmt.Println("Opening the media player....")
 			time.Sleep(1 * time.Second)
 			mediaPlayer()
 		} else if inf == "/shutdown" {
+			fmt.Printf("\n")
 			fmt.Println("Wait....")
 			time.Sleep(1 * time.Second)
 			shutDown()
+		} else if inf == "open paint" {
+			fmt.Printf("\n")
+			fmt.Println("Opening the paint....")
+			time.Sleep(1 * time.Second)
+			openPaint()
 		} else {
+			fmt.Printf("\n")
 			fmt.Println("GoBOT> I'm sorry, I don't understand.")
 			fmt.Printf("\n")
 			fmt.Println("You can use following command such as ")
@@ -156,6 +197,15 @@ func reply(sentence string) {
 	}
 
 }
+func openPaint() {
+	cmd := exec.Command("cmd", "/c", "start", "mspaint")
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Failed to open paint!")
+	} else {
+		fmt.Println("Paint opened sucessfully!")
+	}
+}
 func shutDown() {
 	cmd := exec.Command("shutdown", "-h", "now")
 	err := cmd.Run()
@@ -165,12 +215,22 @@ func shutDown() {
 }
 func openExplorer() {
 	cmd = exec.Command("cmd", "/c", "start", "explorer.exe")
-	cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Failed to open File Explorer")
+	} else {
+		fmt.Println("File explorer opened sucessfully!")
+	}
 
 }
 func openBrowser() {
 	cmd = exec.Command("cmd", "/c", "start", "brave.exe")
-	cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Failed to open Browser")
+	} else {
+		fmt.Println("Browser opened sucessfully!")
+	}
 }
 
 func calculator() {
@@ -178,7 +238,7 @@ func calculator() {
 
 	err := cmd.Run()
 	if err != nil {
-		fmt.Println("Failed to load calculator")
+		fmt.Println("Failed to open calculator")
 	} else {
 		fmt.Println("Calculator opened sucessfully!")
 	}
@@ -186,25 +246,41 @@ func calculator() {
 }
 func mediaPlayer() {
 	cmd = exec.Command("cmd", "/C", "start", "wmplayer.exe")
-	cmd.Start()
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println("Failed to open MediaPlayer")
+	} else {
+		fmt.Println("Mediaplayer opened sucessfully!")
+	}
 }
 func settings() {
 	cmd = exec.Command("cmd", "/C", "start", "ms-settings:")
-	cmd.Start()
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println("Failed to open Settings!")
+	} else {
+		fmt.Println("Settings opened sucessfully!")
+	}
 }
 func notePad() {
 	cmd := exec.Command("notepad.exe")
 	err := cmd.Start()
 
 	if err != nil {
-		fmt.Println("Failed to open Notepad..")
+		fmt.Println("Failed to open Notepad!")
 	} else {
 		fmt.Println("Notepad is opened Sucessfully!")
 	}
 }
 func openCamera() {
 	cmd = exec.Command("cmd", "/c", "start", "microsoft.windows.camera:")
-	cmd.Start()
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println("Failed to open Camera!")
+	} else {
+		fmt.Println("Camera opened sucessfully!")
+	}
+
 }
 func main() {
 	clearScreen()
