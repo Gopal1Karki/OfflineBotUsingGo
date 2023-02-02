@@ -27,7 +27,7 @@ func startInterface() {
 	fmt.Printf("\n\n")
 	fmt.Println("Type /help to if you need any help!! ")
 	fmt.Printf("\n")
-	fmt.Println("GoBOT: Hello ! I am GoBOT. How can i assist you?")
+	fmt.Println("GoBOT> Hello ! I am GoBOT. How can i assist you?")
 	fmt.Printf("\n")
 
 	mainBot()
@@ -54,9 +54,8 @@ func goList() {
 	fmt.Println("GoBOT> Here are the list of instruction you can use!")
 	lists := []string{
 		"open browser", "open camera", "open settings", "current date", "current time", "open notepad", "open explorer",
-		"open mediaplayer", "open paint", "open calculator", "hi", "hello", "good morning", "bye", "good night",
+		"open mediaplayer", "open paint", "open calculator", "hi", "hello", "good morning", "bye", "good night", "open word",
 	}
-
 	for _, list := range lists {
 		fmt.Printf("-> ")
 		fmt.Println(list)
@@ -141,44 +140,59 @@ func reply(sentence string) {
 			settings()
 		} else if inf == "open browser" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
+
 			fmt.Println("Opening the browser....")
 			time.Sleep(1 * time.Second)
 			openBrowser()
 		} else if inf == "open calculator" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Opening the Calculator....")
 			time.Sleep(1 * time.Second)
 			calculator()
 		} else if inf == "open notepad" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Opening the notepad....")
 			time.Sleep(1 * time.Second)
 			notePad()
 		} else if inf == "open camera" || inf == "open webcam" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Opening the camera....")
 			time.Sleep(1 * time.Second)
 			openCamera()
 		} else if inf == "open explorer" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Opening the file explorer....")
 			time.Sleep(1 * time.Second)
 			openExplorer()
 		} else if inf == "open mediaplayer" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Opening the media player....")
 			time.Sleep(1 * time.Second)
 			mediaPlayer()
 		} else if inf == "/shutdown" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Wait....")
 			time.Sleep(1 * time.Second)
 			shutDown()
 		} else if inf == "open paint" {
 			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
 			fmt.Println("Opening the paint....")
 			time.Sleep(1 * time.Second)
 			openPaint()
+		} else if inf == "open word" {
+			fmt.Printf("\n")
+			fmt.Println("GoBOT>  ")
+			fmt.Println("Opening the MsWord....")
+			time.Sleep(1 * time.Second)
+			openWord()
 		} else {
 			fmt.Printf("\n")
 			fmt.Println("GoBOT> I'm sorry, I don't understand.")
@@ -196,6 +210,17 @@ func reply(sentence string) {
 		mainBot()
 	}
 
+}
+func openWord() {
+	cmd := exec.Command("cmd", "/c", "start", "winword")
+
+	err := cmd.Run()
+
+	if err != nil {
+		fmt.Println("Failed to open word!")
+	} else {
+		fmt.Println("MsWord opened sucessfully!")
+	}
 }
 func openPaint() {
 	cmd := exec.Command("cmd", "/c", "start", "mspaint")
